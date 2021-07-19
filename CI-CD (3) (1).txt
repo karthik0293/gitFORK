@@ -1,0 +1,272 @@
+How do you change managers password?
+how do you change tomcat port?
+----------------------------------------------------------------------------------------
+build script 
+----build.sh-----------
+#!/bin/bash
+
+git pull url
+
+if [ $? -ne 0 ];then
+git clone url
+fi
+
+cd repo
+mvn clean deploy 
+
+if [ $? -ne 0 ];then
+echo "build failed"
+else
+/home/ec2-user/deployment.sh ABC.war
+echo "deployment sucess"
+fi
+------------------------------------------------------------------
+CI ----> integrate changes from dev team continuously without manual intervention and we need to give quick feedback devopers for their chnages 
+
+Continuous deployment---> deploying tested from build to prod environment as early as possible
+
+continuous delivery ---> each change from dev team should be built and deployed to test environment continuously
+
+-------------------------------------------
+Assigment1: 
+jenkins
+
+jenkins installation
+
+go to jenkins.io page ---> downloads ---> redhatOS
+
+----------run below commands to install jenkins------------------
+sudo yum install java
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+sudo yum install jenkins
+------------------------------------------------------------------------------------------------
+go to browser and access jenkins using serverpublicIP:8080 
+
+ 
+jenkins home path ---> /var/lib/jenkins
+
+----create jenkins job-----
+1.Source code management
+
+select git and provide git url
+
+2. build triggers
+
+build periodically ---> it will trigger jenkins job based on time wether commit or no commit
+poll scm ---> it will trigger jenkins job if there are commits within specified time. otherwise it will not trigger job
+
+configure webhooks to trigger jenskins job automatically as soon as commit to git repo(and also push)
+
+---------------------------------------------------------------------------------------------------------------------
+
+Assigment2: 
+
+build ABC.exe using jenkins job
+
+job should pull source code and compile it generate binary
+
+configure jenkins job to trigger 
+1.based on time (build periodically) 
+2.based poll scm
+3.configure webhooks as soon as commit to github
+
+
+change jenkins port 
+--------------------------------------------------------------------------------------------------------------
+
+sudo systemctl jenkins start
+sudo systemctl jenkins stop
+sudo systemctl jenkins restart
+
+----------------------------------------------------------------------------------
+master - slave
+is used to distribute load to different servers and also to run specific job on specific server
+
+master---> server on which jenkins is running called as master.
+slave --->server on which we run jenkins job (jenkins not installed on that server)
+
+go to manage jenkins---> manage nodes and clouds  --> new node ---> provide node --> permanent agent
+
+it will open configure page of node 
+
+Number of executor ---> indicate how many jobs can be run on slave parallelly (If give 2, we can run jobs at time)
+
+Remote Root directory---> indicates where jenkins job should run on that slave machine (on which path job should run. mention location) 
+
+label ---> to run jenkins job on available server 
+
+give same lable name to multiple servers  and go to configure page of job, mention label name instead of slave name under "Restrict where this project can be run"
+
+provide host IP
+and other credentials 
+how do you connect to slave machine from jenkins?
+
+via ssh
+
+---------------------------------------------------------------------------------------------------------------
+---------plugins------------------------------------------
+
+job1 ---> job2 --> job3
+
+upstream and downstream plugins --> wanted to trgger jobs one after other and also pass output of one job to another 
+
+
+configure page of job1:
+upstream 
+downstream: job2
+ 
+configure page of job2:
+upstream :job1
+downstream :job3
+
+configure page of job1:
+upstream :job2
+downstream: 
+------------------------------------------------------
+
+parameterised plugin ----> used to pass input to jenkins job 
+
+I have used this parameterised plugin in deployment job. We need to deploy build to multiple servers based request. 
+As soon as I trigger deployment job, it will wait for inputs like server name and build number. selected build will get deployed to selected server.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+how do you copy jenkins job from one jenkins to another?
+
+jenkins1                            jenkins2
+50                                    20
+/var/lib/jenkins               /var/lib/jenkins/jobs
+
+---------------------------------------------------------------------
+
+how do you take jenkins backup?
+
+take backup of /var/lib/jenkins and store in separate github repo
+
+assignment1: create separate git repo for jenkins 
+            push all jenkins config to this jenkins repo  and make sure that you ignore workspace 
+ --------------------------------------
+.gitignore---> 
+
+workspace 
+---------------------------------------------------------------------------------
+
+Gearman --> high availablity plugin. you can add other server details in it.  if jenkins master goes down, other server which mentioned in gearman plugin  will act as jenkins master.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+install below plugins 
+
+selenium plugin
+artifactory configuration
+qualitygate 
+----------------------------------------------------------------------------
+
+assigment1:
+
+java build  ---> deployment --> test
+
+java-build  ---> should pull java source code and should compile source. it should trigger deployment job soon after java build success
+  configgure webhooks for this job
+
+java-deployment ---> should deploy war file to tomcat server and trigger test job
+java-test --> trigger selenium test cases 
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+assignment2:
+how do you take jenkins backup?
+
+take backup of /var/lib/jenkins and store in separate github repo
+
+assignment1: create separate git repo for jenkins 
+            push all jenkins config to this jenkins repo  and make sure that you ignore workspace 
+ --------------------------------------
+.gitignore---> 
+
+workspace 
+--------------------------------------------------------------------------------------------------------------------------
+
+explain CI/CD? explain project?
+
+As soon as dev team pushes code to github, jenkins pipeline job will get triggered. It has three stages, build, deploy and test stage.
+In build stage, it pulls source code from github, compiles it and generate binary.once build stage is success, it will run deploy stage.
+In deploy stage, binary will get deployed to defined QA server and run BVT. once BVT is sucess, it will triggers test stage
+In test stage, it runs test cases given by testing team. if there are any test failures, it will be taken care by testing team. If there are any integration issues, we will take care.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+fork  ----> replica of central repo. but it's for each developer
+pull request(PR) ---> developers will raise request to merge to central repo
+
+once developer complete his work. he will raise PR and approvers (or reviewers) will review PR (source code), then merge to central repo.
+if approvers reject PR, developer has to rework on that issue and re-raise PR.
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Assigment:
+
+all of you have to add java source code and raise PR (pull request) to below repo
+https://github.com/anilreddyl4235/Test1.git
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+xyz
+
+ubuntu repo
+redhat repo
+suse repo
+common repo
+--------------------------
+
+jenkins pipeline1 --ubuntu
+build --> deploy --> test
+common repo
+ubuntu repo
+
+jenkins pipeline2 --redhat
+build --> deploy --> test
+common repo
+redhat repo
+
+jenkins pipeline3 --suse
+build --> deploy --> test
+common repo
+suse repo
+
+-----------------------------------------------------------------------------
+
+sonarqube --> used to check quality of source code. if quality of source code is more 70%, then consider quality is good
+
+we will run sonarqube to check quality of source code once build is success (compilation is done)
+
+JFROg artifactory ---> used to store binaries
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
