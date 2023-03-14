@@ -23,9 +23,9 @@ fi
 ------------------------------------------------------------------
 CI ----> integrate changes from dev team continuously without manual intervention and we need to give quick feedback devopers for their chnages 
 
-Continuous deployment---> deploying tested from build to prod environment as early as possible
+Continuous deployment---> deploying tested from build to prod environment as early as possible ( Automatic deploy)
 
-continuous delivery ---> each change from dev team should be built and deployed to test environment continuously
+continuous delivery ---> each change from dev team should be built and deployed to test environment continuously ( Manual Intervention is required )
 
 -------------------------------------------
 Assigment1: 
