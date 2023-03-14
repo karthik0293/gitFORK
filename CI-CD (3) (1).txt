@@ -21,12 +21,11 @@ else
 echo "deployment sucess"
 fi
 ------------------------------------------------------------------
-CI ----> integrate changes from dev team continuously without manual intervention and we need to give quick feedback devopers for their chnages 
+Continuous Integration ---> integrate changes from dev team continuously without manual intervention and we need to give quick feedback developers for their                                   changes. 
 
-Continuous deployment---> deploying tested from build to prod environment as early as possible ( Automatic deploy)
+continuous delivery ---> each change from dev team should be built and deployed to test environment continuously ( Manual Intervention is required ).
 
-continuous delivery ---> each change from dev team should be built and deployed to test environment continuously ( Manual Intervention is required )
-
+Continuous deployment---> deploying tested from build to prod environment as early as possible ( Automatic deploy i.e., w/o Manual Intervention ).
 -------------------------------------------
 Assigment1: 
 jenkins
