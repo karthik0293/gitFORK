@@ -21,11 +21,11 @@ else
 echo "deployment sucess"
 fi
 ------------------------------------------------------------------
-Continuous Integration ---> integrate changes from dev team continuously without manual intervention and we need to give quick feedback developers for their                                   changes. 
+Continuous Integration ---> integrate changes from dev team continuously without manual intervention and we need to give quick feedback developers for their                                   changes which means building and testing the application on every commit continuously w/o Manual Intervention.
 
-continuous delivery ---> each change from dev team should be built and deployed to test environment continuously ( Manual Intervention is required ).
+continuous delivery --->   In this state Application is always ready to be deployed, but a manual step/intervention is required to actually deploy the application. 
 
-Continuous deployment---> deploying tested from build to prod environment as early as possible ( Automatic deploy i.e., w/o Manual Intervention ).
+Continuous deployment---> It is the automation of building, testing and deploying the application to production w/o any manual intervention if all the tests are passed like build,test and deploy.
 -------------------------------------------
 Assigment1: 
 jenkins
